@@ -6,7 +6,7 @@ from pathlib import Path
 
 st.set_page_config(
     page_title="BMW Price Predictor",
-    page_icon="🚗",
+    page_icon=":material/directions_car:",
     layout="wide",
 )
 
@@ -34,7 +34,7 @@ def load_model_artifacts():
         st.error(f"Error loading model: {e}")
         return None, None, None, None
 
-st.title("🚗 BMW Price Predictor")
+st.title("BMW Price Predictor :material/directions_car:")
 st.subheader("Prediksi harga mobil BMW bekas menggunakan Linear Regression")
 
 # Load data dan model
@@ -121,13 +121,13 @@ with col_right:
             prediction = max(prediction, 0)
             
             # Tampilkan hasil
-            st.success("✅ Prediksi Berhasil")
+            st.success("Prediksi Berhasil")
             st.metric(
                 label="Estimasi Harga",
                 value=f"£{prediction:,.0f}",
                 help=f"{model_name} · {year} · {transmission}"
             )
-            st.caption(f"📊 {model_name} · {year} · {transmission}")
+            st.caption(f"{model_name} · {year} · {transmission}")
             
             # Detail tambahan
             with st.expander("Detail Input"):
