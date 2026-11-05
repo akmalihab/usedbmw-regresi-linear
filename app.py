@@ -4,75 +4,11 @@ import numpy as np
 import joblib
 from pathlib import Path
 
-# Konfigurasi halaman
 st.set_page_config(
     page_title="BMW Price Predictor",
     page_icon="🚗",
     layout="wide",
 )
-
-# CSS kustom
-st.markdown("""
-<style>
-    .main-header {
-        font-size: 12rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    .sub-header {
-        font-size: 6rem;
-        margin-bottom: 2rem;
-    }
-    .metric-card {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 1rem;
-        border-left: 4px solid #1C69D4;
-    }
-    .result-box {
-        background: linear-gradient(135deg, #1C69D4 0%, #0d47a1 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        margin: 1.5rem 0;
-    }
-    .result-box h2 {
-        color: white;
-        margin: 0;
-        font-size: 2.8rem;
-        font-weight: 700;
-    }
-    .result-box p {
-        color: #e3f2fd;
-        margin: 0.5rem 0 0 0;
-        font-size: 1rem;
-    }
-    .info-section {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-    }
-    .info-section h4 {
-        color: #1C69D4;
-        margin-top: 0;
-    }
-    .stButton>button {
-        width: 100%;
-        background-color: #1C69D4;
-        color: white;
-        border: none;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 8px;
-    }
-    .stButton>button:hover {
-        background-color: #0d47a1;
-    }
-</style>
-""", unsafe_allow_html=True)
 
 BASE = Path(__file__).parent
 MODEL_DIR = BASE / "model"
@@ -98,9 +34,8 @@ def load_model_artifacts():
         st.error(f"Error loading model: {e}")
         return None, None, None, None
 
-# Header
-st.markdown('<p class="main-header">BMW Price Predictor</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Prediksi harga mobil BMW bekas menggunakan Linear Regression</p>', unsafe_allow_html=True)
+st.title("🚗 BMW Price Predictor")
+st.subheader("Prediksi harga mobil BMW bekas menggunakan Linear Regression")
 
 # Load data dan model
 if not CSV_PATH.exists():
@@ -186,16 +121,13 @@ with col_right:
             prediction = max(prediction, 0)
             
             # Tampilkan hasil
-            st.markdown(
-                f"""
-                <div class="result-box">
-                    <p>Estimasi Harga</p>
-                    <h2>£{prediction:,.0f}</h2>
-                    <p>{model_name} · {year} · {transmission}</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.success("✅ Prediksi Berhasil")
+            st.metric(
+                label="Estimasi Harga",
+                value=f"£{prediction:,.0f}",
+                help=f"{model_name} · {year} · {transmission}"
             )
+            st.caption(f"📊 {model_name} · {year} · {transmission}")
             
             # Detail tambahan
             with st.expander("Detail Input"):
